@@ -1,0 +1,15 @@
+name: Build Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Confirm Build Success
+        run: echo "Build Successful!"

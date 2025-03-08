@@ -1,0 +1,42 @@
+name: Linting Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: Run Linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Python Linting (Backend)
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          pip install black
+
+      - name: Run Black (Python Linter)
+        run: |
+          black --check backend/
+
+      # JavaScript Linting (Frontend)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install ESLint
+        run: |
+          cd frontend
+          npm install eslint --save-dev
+
+      - name: Run ESLint
+        run: |
+          cd frontend
+          npx eslint .
