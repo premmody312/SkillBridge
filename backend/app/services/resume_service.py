@@ -1,66 +1,53 @@
-import fitz  # PyMuPDF for PDF text extraction
-import docx2txt  # DOCX extraction
+import os
+import pdfplumber
 import spacy
-import re
+from models.resume import Resume
 
-# Load spaCy NLP model
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)  # Ensure uploads directory exists
+
+# Load NLP model
 nlp = spacy.load("en_core_web_sm")
 
-# Predefined set of technical skills (to improve extraction)
-TECH_SKILLS = {
-    "python", "java", "c", "c++", "javascript", "sql", "mysql", "oracle", "html",
-    "css", "react", "node.js", "mongodb", "postgresql", "django", "flask",
-    "git", "docker", "kubernetes", "aws", "azure", "gcp", "tensorflow", "pytorch"
-}
+def extract_text_from_pdf(file_path: str) -> str:
+    """Extract text from a PDF file."""
+    with pdfplumber.open(file_path) as pdf:
+        return "\n".join([page.extract_text() for page in pdf.pages if page.extract_text()])
 
-# Extract text from PDF
-def extract_text_from_pdf(file) -> str:
-    doc = fitz.open(stream=file.read(), filetype="pdf")
-    return "\n".join(page.get_text("text") for page in doc)
+def extract_resume_data(text: str) -> dict:
+    """Extract education, skills, and experience from text."""
+    doc = nlp(text)
+    education, skills, experience = set(), set(), set()
 
-# Extract text from DOCX
-def extract_text_from_docx(file) -> str:
-    return docx2txt.process(file)
+    for ent in doc.ents:
+        if ent.label_ == "ORG":  # Organizations may indicate universities
+            education.add(ent.text)
+        elif ent.label_ in ["PERSON", "GPE"]:  # Work experiences
+            experience.add(ent.text)
 
-# Extract skills from text
-def extract_skills(text):
-    skills_found = set()
-    words = re.findall(r"\b\w+\b", text.lower())  # Tokenize words
-    for word in words:
-        if word in TECH_SKILLS:
-            skills_found.add(word)
-    return list(skills_found)
-
-# Extract experience based on job descriptions
-def extract_experience(text):
-    experience_sections = []
-    lines = text.split("\n")
-
-    for i, line in enumerate(lines):
-        if "experience" in line.lower():  # Look for the "EXPERIENCE" section
-            experience_sections.append(line.strip())
-            for j in range(i+1, min(i+6, len(lines))):  # Grab next few lines
-                if lines[j].strip():
-                    experience_sections.append(lines[j].strip())
-                else:
-                    break  # Stop if there's a blank line
-
-    return experience_sections
-
-# Parse resume to extract structured data
-def parse_resume(file, filename, content_type):
-    if content_type == "application/pdf":
-        text = extract_text_from_pdf(file)
-    elif content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        text = extract_text_from_docx(file)
-    else:
-        return None
-
-    skills = extract_skills(text)
-    experience = extract_experience(text)
+    skill_keywords = {"python", "java", "fastapi", "mongodb", "docker", "aws"}
+    skills.update({word for word in text.lower().split() if word in skill_keywords})
 
     return {
-        "filename": filename,
-        "skills": skills,
-        "experience": experience
+        "education": list(education),
+        "skills": list(skills),
+        "experience": list(experience)
     }
+
+def save_resume(file_name: str, file_content: bytes) -> dict:
+    """Save the resume file locally and extract details."""
+    file_path = os.path.join(UPLOAD_DIR, file_name)
+    with open(file_path, "wb") as buffer:
+        buffer.write(file_content)
+
+    # Extract text and parse
+    text = extract_text_from_pdf(file_path)
+    extracted_data = extract_resume_data(text)
+
+    return Resume(
+        file_name=file_name,
+        education=extracted_data["education"],
+        skills=extracted_data["skills"],
+        experience=extracted_data["experience"]
+    ).dict()
+

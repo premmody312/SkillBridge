@@ -1,11 +1,9 @@
 from fastapi import FastAPI
-from app.routes import resume_parser
+from routes.resume_parser import router
 
-app = FastAPI(title="SkillBridge Backend")
-
-# Routes
-app.include_router(resume_parser.router, prefix="/api/v1")
+app = FastAPI()
+app.include_router(router, prefix="/api")
 
 @app.get("/")
-async def root():
-    return {"message": "Welcome to SkillBridge API"}
+def home():
+    return {"message": "Resume Parser API is running!"}
