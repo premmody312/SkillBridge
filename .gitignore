@@ -8,3 +8,7 @@ node_modules
 build
 
 .DS_Store
+
+# Python virtual env
+__pycache__
+.venv
