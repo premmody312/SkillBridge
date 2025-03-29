@@ -1,5 +1,5 @@
 import google.generativeai as genai
-import yaml
+import re
 
 # Load API key from config
 GEMINI_API_KEY = "AIzaSyBbn2rpI-tEJXYhVL4fsoLXUzuj2ARX7AY"
@@ -30,4 +30,8 @@ def resume_extractor(resume_text: str) -> str:
     """
 
     response = model.generate_content(prompt)
-    return response.text.strip()
+
+    # Remove unwanted ```json ... ``` formatting using regex
+    cleaned_response = re.sub(r"```json|```", "", response.text).strip()
+    
+    return cleaned_response
