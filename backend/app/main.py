@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import resume_parser
+from routes import resume_parser
 
 app = FastAPI(title="SkillBridge Backend")
 
