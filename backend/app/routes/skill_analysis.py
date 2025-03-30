@@ -35,9 +35,7 @@ async def skill_gap_analysis(skill: Skills):
     missing_technical_skills = required_technical_skills - extracted_technical_skills
     missing_soft_skills = required_soft_skills - extracted_soft_skills
 
-    # Search for courses    
-    all_missing_skills = list(missing_technical_skills.union(missing_soft_skills))
-    # course_recommendations = get_course_recommendations(all_missing_skills, job_description)
+    # Course Recommendations
     course_recommendations = get_course_recommendations(
     missing_technical_skills,
     job_description,

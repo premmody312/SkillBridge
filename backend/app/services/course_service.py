@@ -1,3 +1,4 @@
+import json
 import google.generativeai as genai
 from typing import List
 
@@ -56,7 +57,6 @@ def get_course_recommendations(missing_skills: List[str], job_description: str,
         if response_text.startswith("```json"):
             response_text = response_text.replace("```json", "").replace("```", "").strip()
 
-        import json
         return json.loads(response_text)
 
     except Exception as e:
