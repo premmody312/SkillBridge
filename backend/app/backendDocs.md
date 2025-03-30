@@ -18,10 +18,10 @@
   ```bash
   Key: pdf_doc | Value: your pdf (from local)
 
-#### Post Request -- Skill Gap Analysis
+#### Post Request -- Skill Gap Analysis & Course Recommendation
 - URL
   ```bash
-  http://localhost:8000/api/v1/skill-gap-analysis
+  http://localhost:8000/api/v1/skill-gap-with-recommendations 
 - Header
   ```bash
   Content-type: application/json
@@ -34,3 +34,6 @@
   },
   "job_description": "" // Enter description as plain text
   }
+
+
+
