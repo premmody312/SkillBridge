@@ -33,13 +33,13 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang='en'>
 				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-					<SignedOut>
+					className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen h-screen overflow-hidden flex flex-col`}>
+					{/* <SignedOut>
 						<SignInButton />
 					</SignedOut>
 					<SignedIn>
 						<UserButton />
-					</SignedIn>
+					</SignedIn> */}
 					{children}
 				</body>
 			</html>
