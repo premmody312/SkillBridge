@@ -1,14 +1,18 @@
 import json
 import google.generativeai as genai
 from typing import List
+import os
+from dotenv import load_dotenv
 
-# Setup Gemini
-GEMINI_API_KEY = "AIzaSyBbn2rpI-tEJXYhVL4fsoLXUzuj2ARX7AY"
+load_dotenv()
+
+# Load API key from env
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
-def get_course_recommendations(missing_skills: List[str], job_description: str,
-                                tech_skills: List[str], soft_skills: List[str]) -> dict:
+def get_course_recommendations(job_description: str, tech_skills: List[str],
+                               soft_skills: List[str]) -> dict:
     """
     Use Gemini to return separate course recommendations for technical and soft skills.
     """
