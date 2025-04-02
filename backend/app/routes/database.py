@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from database import fs, parsed_resumes
 import gridfs
 import io
+from bson import ObjectId
 
 router = APIRouter()
 
@@ -20,9 +21,9 @@ async def get_resume(resume_id: str):
 async def download_resume(resume_id: str):
     """Downloads the stored resume PDF."""
     try:
-        file_data = fs.get(resume_id)
+        file_data = fs.get(ObjectId(resume_id))
         return StreamingResponse(io.BytesIO(file_data.read()), 
                                  media_type="application/pdf",
-                                 headers={"Content-Disposition": f"attachment; filename={resume_id}.pdf"})
+                                 headers={"Content-Disposition": f"attachment; filename={file_data.filename}_{resume_id}.pdf"})
     except gridfs.errors.NoFile:
         raise HTTPException(status_code=404, detail="Resume not found")
