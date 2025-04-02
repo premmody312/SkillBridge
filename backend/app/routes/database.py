@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
-from database import fs, parsed_resumes
+from database import fs, parsed_resumes, skill_analysis
 import gridfs
 import io
 from bson import ObjectId
@@ -27,3 +27,24 @@ async def download_resume(resume_id: str):
                                  headers={"Content-Disposition": f"attachment; filename={resume_id}_{file_data.filename}"})
     except gridfs.errors.NoFile:
         raise HTTPException(status_code=404, detail="Resume not found")
+
+
+@router.get("/getSkillAnalysisById/{resume_id}")
+async def get_skill_analysis(resume_id: str):
+    """
+    Fetches the stored skill analysis and course recommendations by resume_id.
+    """
+    skill_analysis_data = skill_analysis.find_one(
+        {"resume_id": resume_id},
+        {"_id": 0}
+    )
+
+    if not skill_analysis_data:
+        raise HTTPException(status_code=404, detail="Skill analysis not found")
+
+    return JSONResponse(content={
+        "resume_id": resume_id,
+        "missing_technical_skills": skill_analysis_data.get("missing_technical_skills", []),
+        "missing_soft_skills": skill_analysis_data.get("missing_soft_skills", []),
+        "course_recommendations": skill_analysis_data.get("course_recommendations", {})
+    })
