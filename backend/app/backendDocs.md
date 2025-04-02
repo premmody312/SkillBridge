@@ -2,7 +2,7 @@
 
 ### Running the Service
 
-- Make sure to keep your resume under backend/app/uploads/
+- Sample resumes in backend/app/uploads/
 - Navigate to the backend directory:
   ```bash
   cd backend/app
