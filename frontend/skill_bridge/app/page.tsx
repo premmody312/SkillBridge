@@ -77,7 +77,7 @@ export default function Home() {
 
 					<Button
 						asChild
-						className="mt-10 px-8 py-4 text-lg font-medium rounded-full shadow-md"
+						className="mt-10 px-8 py-4 text-lg font-medium"
 						variant="default"
 					>
 						<Link
