@@ -35,5 +35,21 @@
   "job_description": "" // Enter description as plain text
   }
 
+#### Get Request -- getResumeById
+- Here, resumeId is the chunk id stored in fs.chunks in the skillbridge database
+- URL
+  ```bash
+  http://localhost:8000/api/v1/getResumeById/{resumeId} 
+- Example
+  ```bash
+  http://localhost:8000/api/v1/getResumeById/67edaa32cf6ea1dece401439 
 
+#### Get Request -- download resume by id
+- To display the resume by Id
+- URL
+  ```bash
+  http://localhost:8000/api/v1/download/{resumeId} 
+- Example
+  ```bash
+  http://localhost:8000/api/v1/download/67edaa32cf6ea1dece401439 
 
