@@ -1,11 +1,8 @@
-import os
 import json
 from pydantic import BaseModel
 from fastapi import APIRouter, HTTPException
 from services.skill_analysis_service import missing_skill_extractor
 from services.course_service import get_course_recommendations
-
-
 
 class Skills(BaseModel):
     resume_data: dict
@@ -48,4 +45,3 @@ async def skill_gap_analysis(skill: Skills):
         "Missing Soft Skills": list(missing_soft_skills),
         "Recommendations": course_recommendations
     }
-    

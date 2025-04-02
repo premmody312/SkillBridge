@@ -1,6 +1,5 @@
 import os
 import json
-import uuid
 from fastapi import APIRouter, File, UploadFile, HTTPException
 from uploads.file_handler import extract_text_from_pdf
 from services.resume_service import resume_extractor
