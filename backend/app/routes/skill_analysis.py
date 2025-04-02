@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi import APIRouter, HTTPException
 from services.skill_analysis_service import missing_skill_extractor
 from services.course_service import get_course_recommendations
-from database import parsed_resumes
+from database import parsed_resumes, skill_analysis
 
 class Skills(BaseModel):
     resume_id: str
@@ -42,6 +42,12 @@ async def skill_gap_analysis(skill: Skills):
         list(missing_technical_skills),
         list(missing_soft_skills)
     )
+
+    # Store skill analysis and course recommendation in db
+    skill_analysis.insert_one({"resume_id": resume_id,
+                               "missing_technical_skills": list(missing_technical_skills),
+                               "missing_soft_skills": list(missing_soft_skills),
+                               "course_recommendations": course_recommendations})
 
     return {
         "Missing Technical Skills": list(missing_technical_skills),

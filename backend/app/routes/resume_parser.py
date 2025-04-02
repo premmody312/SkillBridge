@@ -35,7 +35,8 @@ async def process_resume(pdf_doc: UploadFile = File(...)):
         # AI-based parsing
         extracted_data = resume_extractor(resume_text)
         parsed_data = json.loads(extracted_data)
-        # Store parsed JSON
+        
+        # Store parsed resume in db
         parsed_resumes.insert_one({"resume_id": resume_id, "parsed_data": parsed_data})
 
         return {
