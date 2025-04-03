@@ -1,10 +1,9 @@
-import PyPDF2
+from PyPDF2 import PdfReader
 
-def extract_text_from_pdf(file_path: str) -> str:
+def extract_text_from_pdf(file) -> str:
     """
-    Extracts text from a given PDF file.
+    Extracts text from PDF. Accepts file path or BytesIO.
     """
-    with open(file_path, "rb") as file:
-        reader = PyPDF2.PdfReader(file)
-        text = "".join(page.extract_text() for page in reader.pages if page.extract_text())
+    reader = PdfReader(file)
+    text = "".join(page.extract_text() for page in reader.pages if page.extract_text())
     return text
