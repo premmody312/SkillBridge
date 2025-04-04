@@ -46,6 +46,7 @@ async def process_resume(user_id: str = Header(None), pdf_doc: UploadFile = File
         parsed_resumes.insert_one({"resume_id": resume_id, "parsed_data": parsed_data})
 
         return {
+            "message": "Resume uploaded and parsed successfully",
             "resume_id": resume_id,
             "parsed_data": parsed_data
         }
