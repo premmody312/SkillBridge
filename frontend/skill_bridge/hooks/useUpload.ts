@@ -75,11 +75,12 @@ function useUpload() {
         // Example code below:
 
         setStatus(StatusText.UPLOADING);
+        setProgress(0);
         try {
             const formData = new FormData();
-            formData.append("file", file);
+            formData.append("pdf_doc", file);
 
-            const response = await fetch("/api/upload", {
+            const response = await fetch("http://localhost:8000/api/v1/process", {
             method: "POST",
             body: formData,
             headers: {
@@ -117,14 +118,13 @@ function useUpload() {
             }
 
             setStatus("success");
+            setProgress(100)
         } catch (error) {
             console.error("Error uploading file:", error);
             setStatus("error");
         }
 
-
 	};
-
 	return { progress, status, fileId, handleFilesGet, handleUpload };
 }
 
