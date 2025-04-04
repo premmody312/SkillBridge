@@ -19,23 +19,8 @@ function FileUploader() {
 		const file = acceptedFiles[0];
 		if (file) {
 			await handleUpload(file);
+			router.push("/dashboard/files/123");
 		}
-
-		console.log(file);
-		console.log(`File: ${file.name}, Size: ${file.size} bytes`);
-		const reader = new FileReader();
-		reader.onload = (event) => {
-			if (event.target?.result) {
-				const fileBytes = event.target.result;
-				console.log("File bytes: ", fileBytes);
-			} else {
-				console.error("Failed to read the file.");
-			}
-		};
-		reader.onerror = () => {
-			console.error("Error reading the file.");
-		};
-		reader.readAsArrayBuffer(file);
 	}, []);
 
 	const statusIcons = {
@@ -73,7 +58,7 @@ function FileUploader() {
 		<div className='flex flex-col items-center max-w-4xl mx-auto px-6 sm:px-8 pt-10'>
 			{uploadInProgress && (
 				<div className='mt-32 flex flex-col items-center justify-center gap-5'>
-					<div
+					{/* <div
 						className={`radial-progress bg-indigo-300 text-white border-indigo-600 border-4 ${
 							progress === 100 && "hidden"
 						}`}
@@ -85,7 +70,7 @@ function FileUploader() {
 							"--thickness": "1.3rem",
 						}}>
 						{progress}%
-					</div>
+					</div> */}
 
 					{/*@ts-ignore*/}
 					{statusIcons[status!]}
@@ -95,7 +80,7 @@ function FileUploader() {
 				</div>
 			)}
 
-			{true && (
+			{!uploadInProgress && (
 				<div
 					{...getRootProps()}
 					className={`p-10 border-2 border-dashed rounded-2xl h-72 flex items-center justify-center transition-all duration-300 ${

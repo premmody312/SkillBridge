@@ -12,3 +12,4 @@ build
 # Python virtual env
 __pycache__
 .venv
+venv
