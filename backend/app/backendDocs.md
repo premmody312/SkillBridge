@@ -8,6 +8,8 @@
   cd backend/app
 - Run:
   ```bash
+  pip install -r requirements.txt -> installs all necessary packages for the backend to run
+  
   python app.py
 ### Testing
 #### Post Request -- Resume Parse
@@ -61,3 +63,16 @@
 - Example
   ```bash
   http://localhost:8000/api/v1/getSkillAnalysisById/67ed86acee875d734d400326 
+
+#### Get Request -- Get all Resumes for a user, by user id 
+- URL
+  ```bash
+  http://localhost:8000/api/v1/getAllResumeByUserId 
+- Header
+  ```bash
+  user-id: {} // We will be receiving user id as a header
+- Example
+  ```bash
+  http://localhost:8000/api/v1/getAllResumeById
+  Header:
+    user-id: 123456789
