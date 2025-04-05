@@ -7,8 +7,8 @@ function Header() {
     return (
         <header className="flex justify-between items-center bg-white shadow-sm p-4 lg:p-6 border-b border-gray-200">
             <Link
-                href="/dashboard"
-                className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
+                href="/"
+                className="text-2xl font-bold text-gray-700 hover:text-gray-600 transition-colors"
             >
                 SkillBridge
             </Link>
