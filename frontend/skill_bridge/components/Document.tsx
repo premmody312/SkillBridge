@@ -8,7 +8,7 @@ function Document({ id, name }: { id: string; name: string }) {
     return (
         <div className="flex flex-col w-64 h-80 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all duration-500 p-6 cursor-pointer border border-gray-100">
             <div className="flex flex-col items-start">
-                <p className="font-medium text-base text-gray-800 overflow-hidden text-ellipsis break-all line-clamp-2">
+                <p className="font-medium text-base text-gray-800 overflow-hidden text-ellipsis break-all line-clamp-1">
                     {name}
                 </p>
                 <div className="h-px w-16 bg-gradient-to-r from-gray-200 to-transparent mt-2"></div>

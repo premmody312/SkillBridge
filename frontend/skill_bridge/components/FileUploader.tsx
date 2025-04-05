@@ -10,20 +10,19 @@ function FileUploader() {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (fileId) {
-			// router.push(`/dashboard/viewFile/${fileId}`);
-			router.push("/dashboard/files/123");
-		}
-	}, [fileId, router]);
+        if (fileId) {
+            console.log("Redirecting with fileId:", fileId);
+            localStorage.setItem("lastUploadedResumeId", fileId);
+            router.push(`/dashboard/files/${fileId}`); 
+        }
+    }, [fileId, router]);
 
 	const onDrop = useCallback(async (acceptedFiles: File[]) => {
-		const file = acceptedFiles[0];
-		if (file) {
-			await handleUpload(file);
-			// router.push(`/dashboard/viewFile/${fileId}`);
-			// router.push("/dashboard/files/123");
-		}
-	}, []);
+        const file = acceptedFiles[0];
+        if (file) {
+            await handleUpload(file);
+        }
+    }, [handleUpload]);
 
 	const statusIcons = {
 		[StatusText.UPLOADING]: (

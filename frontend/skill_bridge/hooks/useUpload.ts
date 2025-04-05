@@ -21,8 +21,9 @@ function useUpload() {
 	const { user } = useUser();
 
     const handleFileGet = async (fileId: string): Promise<Blob> => {
-        if(!fileId || !user) return new Blob();
-
+        if(!fileId || !user) {
+            throw new Error("Missing file ID or user information");
+        }
         console.log("Resume ID:", fileId);
         const response = await fetch(`http://localhost:8000/api/v1/downloadResumeById/${fileId}`, {
             method: "GET",
@@ -47,7 +48,7 @@ function useUpload() {
 
             const blob = new Blob(chunks);
             console.log("Blob: ", blob);
-
+            console.log("Resume ID:", fileId);
             return blob;
 
         } else {
