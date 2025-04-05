@@ -16,9 +16,12 @@
 - URL
   ```bash
   http://localhost:8000/api/v1/process
+- Header
+  ```bash
+  user-id: '' // user-id of currently logged in user
 - Body Parameters -> form-data
   ```bash
-  Key: pdf_doc | Value: your pdf (from local)
+  Key: pdf_doc | Value: your pdf
 
 #### Post Request -- Skill Gap Analysis & Course Recommendation
 - URL
@@ -30,11 +33,8 @@
 - Body Parameters -> raw
   ```bash
   {
-    "resume_data": {
-       "Technical Skills": [], // Enter comma separated skills
-       "Soft Skills": [], // Enter comma separated skills
-  },
-  "job_description": "" // Enter description as plain text
+    "resume_id": "", // resume_id of the resume to analyze
+    "job_description": "" // Enter description as plain text
   }
 
 #### Get Request -- getResumeById
@@ -76,3 +76,22 @@
   http://localhost:8000/api/v1/getAllResumeById
   Header:
     user-id: 123456789
+
+#### Delete Request -- Deletes the resume pdf for a given reusme_id 
+- Deletes from following collections:
+  ```bash
+  GridFS file + chunks
+  Parsed resume
+  Skill analysis
+  Resume_ids array in Users collection
+- URL
+  ```bash
+  http://localhost:8000/api/v1/deleteResume/{resume_id}
+- Header
+  ```bash
+  user-id: {} // user-id to remove from users collection
+- Example
+  ```bash
+  http://localhost:8000/api/v1/deleteResume/67f18c459ab56ddc72fc2dba
+  Header:
+    user-id: user_2vCeDUx2obuFz0WEC5znYgH0ZLx

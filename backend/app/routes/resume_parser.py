@@ -1,9 +1,13 @@
 import os
 import json
+from fastapi.responses import JSONResponse
+from bson import ObjectId
+from fastapi import Path, Header
+import gridfs
 from fastapi import APIRouter, File, UploadFile, HTTPException, Header
 from uploads.file_handler import extract_text_from_pdf
 from services.resume_service import resume_extractor
-from database import fs, parsed_resumes, users
+from database import fs, skill_analysis, users, parsed_resumes
 from io import BytesIO
 
 router = APIRouter()
@@ -55,6 +59,47 @@ async def process_resume(user_id: str = Header(None), pdf_doc: UploadFile = File
         raise HTTPException(status_code=500, detail="Failed to parse AI response")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/deleteResume/{resume_id}")
+async def delete_resume(resume_id: str = Path(...), user_id: str = Header(None)):
+    """
+    Deletes the resume PDF and related data for a given resume_id.
+    This includes:
+    - GridFS file + chunks
+    - Parsed resume
+    - Skill analysis
+    - Reference in user's resume_ids
+    """
+    if not user_id:
+        raise HTTPException(status_code=400, detail="User-ID header is required")
+
+    try:
+        # Delete from GridFS (fs.files + fs.chunks)
+        fs.delete(ObjectId(resume_id))
+
+        # Delete from parsed_resumes
+        parsed_resumes.delete_one({"resume_id": resume_id})
+
+        # Delete from skill_analysis
+        skill_analysis.delete_one({"resume_id": resume_id})
+
+        # Remove from users.resume_ids array
+        users.update_one(
+            {"_id": user_id},
+            {"$pull": {"resume_ids": resume_id}}
+        )
+
+        return JSONResponse(
+            status_code=200,
+            content={"message": f"Resume {resume_id} and related data deleted successfully"}
+        )
+
+    except gridfs.errors.NoFile:
+        raise HTTPException(status_code=404, detail="Resume file not found in GridFS")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 async def store_resume(file: UploadFile) -> str:
     """Stores resume PDF in MongoDB and returns its file ID."""
