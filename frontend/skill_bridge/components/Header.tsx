@@ -5,39 +5,34 @@ import { FilePlus2 } from "lucide-react";
 
 function Header() {
     return (
-        <header className="flex justify-between items-center bg-gray-50 shadow-md p-4 lg:p-6 border-b border-gray-200">
-            {/* Logo or Branding */}
+        <header className="flex justify-between items-center bg-white shadow-sm p-4 lg:p-6 border-b border-gray-200">
             <Link
                 href="/dashboard"
-                className="text-2xl font-semibold text-gray-900 hover:text-gray-700 transition-colors"
+                className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
             >
-                Enhance your <span className="text-gray-500 font-bold">Resume</span>
+                SkillBridge
             </Link>
 
-            {/* Navigation and User Actions */}
             <SignedIn>
                 <div className="flex items-center space-x-6">
-                    {/* My Documents Button */}
                     <Button
                         variant="outline"
-                        className="border-gray-300 text-gray-900 hover:bg-gray-100 hover:border-gray-400 transition-all"
+                        className="border-gray-300 text-gray-900 hover:bg-gray-100 hover:border-gray-400 transition-all px-4 py-2 rounded-lg"
                         asChild
                     >
                         <Link href="/dashboard">My Documents</Link>
                     </Button>
 
-                    {/* Upload Button */}
                     <Button
-                        variant="outline"
-                        className="bg-gray-700 border-gray-300 text-gray-300 hover:text-gray-700 hover:bg-gray-100 hover:border-gray-200 transition-all"
+                        variant="default"
+                        className="bg-gray-900 text-white hover:bg-gray-700 transition-all px-4 py-2 rounded-lg flex items-center space-x-2"
                         asChild
                     >
                         <Link href="/dashboard/upload">
-                            <FilePlus2 className="" />
+                            <FilePlus2 className="h-5 w-5" />
                         </Link>
                     </Button>
 
-                    {/* User Profile Button */}
                     <UserButton />
                 </div>
             </SignedIn>

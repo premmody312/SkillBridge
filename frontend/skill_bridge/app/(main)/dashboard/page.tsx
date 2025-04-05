@@ -1,24 +1,26 @@
 import Documents from "@/components/Documents";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 function Dashboard() {
     return (
-        <div className="h-full max-w-6xl mx-auto px-6 sm:px-8 pt-10">
-            <header className="pb-6 border-b border-gray-300">
-                <h1 className="text-4xl font-semibold text-gray-900 tracking-tight">
-                    My Documents
-                </h1>
-                <p className="text-lg text-gray-500 mt-2">
-                    Access and manage your documents effortlessly.
-                </p>
-            </header>
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+            <div className="max-w-5xl mx-auto px-6 sm:px-8 py-10">
+                <header className="pb-8 border-b border-gray-200">
+                    <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight text-center">
+                        My Documents
+                    </h1>
+                    <p className="text-lg text-gray-600 mt-4 text-center">
+                        Effortlessly access, manage, and organize your documents.
+                    </p>
+                </header>
 
-            <main className="mt-8">
-                <div className="rounded-lg shadow-md bg-white p-6">
-                    <Documents />
-                </div>
-            </main>
+                <main className="mt-10">
+                    <div className="rounded-3xl shadow-lg bg-white p-8">
+                        <Documents />
+                    </div>
+                </main>
+            </div>
         </div>
     );
 }

@@ -11,7 +11,7 @@ function FileUploader() {
 
 	useEffect(() => {
 		if (fileId) {
-			router.push(`/dashboard/files/${fileId}`);
+			router.push(`/dashboard/viewFile/${fileId}`);
 		}
 	}, [fileId, router]);
 
@@ -19,7 +19,8 @@ function FileUploader() {
 		const file = acceptedFiles[0];
 		if (file) {
 			await handleUpload(file);
-			router.push("/dashboard/files/123");
+			// router.push(`/dashboard/viewFile/${fileId}`);
+			// router.push("/dashboard/files/123");
 		}
 	}, []);
 
