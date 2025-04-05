@@ -50,10 +50,10 @@
 - To display the resume by Id
 - URL
   ```bash
-  http://localhost:8000/api/v1/download/{resumeId} 
+  http://localhost:8000/api/v1/downloadResumeById/{resumeId} 
 - Example
   ```bash
-  http://localhost:8000/api/v1/download/67edaa32cf6ea1dece401439 
+  http://localhost:8000/api/v1/downloadResumeById/67edaa32cf6ea1dece401439 
 
 #### Get Request -- get skill analysis and course recommendation by resume id
 - Display the results of missing skills (tech/non-tech) and course recommendations by resume id
