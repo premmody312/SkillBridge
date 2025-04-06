@@ -1,3 +1,4 @@
+//old approach leaving it here for now
 // "use client";
 
 // import { useState } from 'react';
@@ -139,6 +140,7 @@
 //   );
 // }
 
+//new approach unused leaving it here for now
 "use client";
 
 import { useState, useEffect } from 'react';
