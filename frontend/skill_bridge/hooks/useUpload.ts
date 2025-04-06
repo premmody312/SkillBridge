@@ -86,6 +86,35 @@ function useUpload() {
         }
 
     }
+    
+    const handleDelete = async (resumeId: string): Promise<boolean> => {
+        if (!resumeId || !user) {
+          throw new Error("Missing resume ID or user information");
+        }
+        
+        try {
+          const response = await fetch(`http://localhost:8000/api/v1/deleteResume/${resumeId}`, {
+            method: "DELETE",
+            headers: {
+              "user-id": user.id,
+              "Content-Type": "application/json"
+            }
+          });
+      
+          if (!response.ok) {
+            throw new Error(`Delete failed with status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Delete response:", data);
+          return true;
+        } catch (error) {
+          console.error("Error deleting resume:", error);
+          return false;
+        }
+      };
+      
+
 
 	const handleUpload = async (file: File) => {
         if(!file || !user) return;
@@ -145,7 +174,7 @@ function useUpload() {
         }
 
 	};
-	return { progress, status, fileId, handleFilesGet, handleUpload, handleFileGet };
+	return { progress, status, fileId, handleFilesGet, handleUpload, handleFileGet, handleDelete };
 }
 
 export default useUpload;
