@@ -82,6 +82,15 @@ export default function ResultsPage() {
     fetchResumeData();
   }, [fileId, user, isUserLoaded]);
 
+  const handleExportPDF = () => {
+    const link = document.createElement('a');
+    link.href = `http://localhost:8000/api/v1/downloadResumeById/${resumeId}`;
+    link.download = `resume-${resumeId}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleAnalyze = async () => {
     if (!jobTitle.trim()) {
       alert("Please enter a job title to analyze");
@@ -157,7 +166,7 @@ export default function ResultsPage() {
         </div>
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">Resume Details</h1>
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button variant="outline" className="flex items-center gap-2"   onClick={handleExportPDF}>
             <Download className="h-4 w-4" />
             Export PDF
           </Button>
@@ -205,7 +214,7 @@ export default function ResultsPage() {
             {resumeData?.["Employment Details"]?.map((job, index) => (
               <div key={index} className="border-l-2 border-gray-200 pl-4">
                 <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-semibold text-gray-800">{job.Title}</h3>
+                  <h3 className="font-semibold text-gray-800">{job.Title}{job.Role}</h3>
                   <span className="text-sm text-gray-500">{job.Dates}</span>
                 </div>
                 <p className="text-gray-600 mb-1">{job.Company}, {job.Location}</p>
@@ -215,8 +224,10 @@ export default function ResultsPage() {
           </div>
 
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Skills</h2>
-          <div className="space-y-4 mb-8">
-            {resumeData?.["Technical Skills"] && (
+    <div className="space-y-4 mb-8">
+      {resumeData?.["Technical Skills"] && (
+        <>
+            {typeof resumeData["Technical Skills"] === 'object' && !Array.isArray(resumeData["Technical Skills"]) && (
               Object.entries(resumeData["Technical Skills"]).map(([category, skillsList]) => (
                 <div key={category}>
                   <h3 className="font-medium text-gray-700 mb-2">{category}</h3>
@@ -231,11 +242,11 @@ export default function ResultsPage() {
               ))
             )}
             
-            {resumeData?.["Soft Skills"] && (
+            {Array.isArray(resumeData["Technical Skills"]) && (
               <div>
-                <h3 className="font-medium text-gray-700 mb-2">Soft Skills</h3>
+                <h3 className="font-medium text-gray-700 mb-2">Technical Skills</h3>
                 <div className="flex flex-wrap gap-2">
-                  {resumeData["Soft Skills"].map((skill, idx) => (
+                  {resumeData["Technical Skills"].map((skill, idx) => (
                     <span key={idx} className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
                       {skill}
                     </span>
@@ -243,14 +254,29 @@ export default function ResultsPage() {
                 </div>
               </div>
             )}
+          </>
+        )}
+        
+      {resumeData?.["Soft Skills"] && (
+        <div>
+          <h3 className="font-medium text-gray-700 mb-2">Soft Skills</h3>
+          <div className="flex flex-wrap gap-2">
+            {resumeData["Soft Skills"].map((skill, idx) => (
+              <span key={idx} className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
+                {skill}
+              </span>
+            ))}
           </div>
         </div>
-      </div>
+      )}
+    </div>
+            </div>
+          </div>
 
       {/* Job Title Input Section */}
       <div className="bg-white shadow rounded-lg overflow-hidden border border-gray-200 p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Generate Career Recommendations</h2>
-        <p className="text-gray-600 mb-6">Enter the job title you'd like to tailor your resume for, and we'll analyze skills gaps and provide personalized recommendations.</p>
+        <p className="text-gray-600 mb-6">Enter the job description or job title you'd like to tailor your resume for ...</p>
         
         <div className="flex flex-col sm:flex-row gap-4">
           <Input 
