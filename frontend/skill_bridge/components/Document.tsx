@@ -13,7 +13,7 @@ function Document({ id, name }: { id: string; name: string }) {
     const handleViewPDF = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        router.push(`/dashboard/files/${id}`);
+        router.push(`/dashboard/viewFile/${id}`);
     };
 
     const handleViewAnalysis = async (e) => {
