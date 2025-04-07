@@ -13,33 +13,33 @@ import Image from "next/image";
 
 const features = [
 	{
-		name: "Feature 1",
-		description: "Description of feature 1",
+		name: "Smart Resume Analyzer",
+		description: "Instantly parse your resume and get personalized feedback to improve structure, skills, and formatting.",
 		icon: GlobeIcon,
 	},
 	{
-		name: "Feature 2",
-		description: "Description of feature 2",
+		name: "AI-Powered Skill Gap Analysis",
+		description: "Discover what skills you're missing for your dream job using real-time AI comparison with job market data.",
 		icon: ZapIcon,
 	},
 	{
-		name: "Feature 3",
-		description: "Description of feature 3",
+		name: "Tailored Course Recommendations",
+		description: "Get curated courses and certifications that match your goals and close identified skill gaps.",
 		icon: BrainCogIcon,
 	},
 	{
-		name: "Feature 4",
-		description: "Description of feature 4",
+		name: "Career Path Insights",
+		description: "Explore potential career trajectories based on your profile, including salary benchmarks and in-demand roles.",
 		icon: EyeIcon,
 	},
 	{
-		name: "Feature 5",
-		description: "Description of feature 5",
+		name: "Interactive AI Chatbot Coach",
+		description: "Get 24/7 guidance from our intelligent chatbot — ask career questions, get advice, or explore new options.",
 		icon: ServerCogIcon,
 	},
 	{
-		name: "Feature 6",
-		description: "Description of feature 6",
+		name: "Seamless Resume Management Dashboard",
+		description: "Upload, track, and manage all your resumes with detailed analytics and version control.",
 		icon: MonitorSmartphoneIcon,
 	},
 ];
