@@ -65,26 +65,33 @@ export default function AnalysisPage() {
 
   return (
     <div className="container max-w-5xl mx-auto py-8 px-4 sm:px-6">
-      <div className="mb-8">
-        <div className="flex items-center text-sm text-gray-500 mb-4">
-          <span>Dashboard</span>
-          <ChevronRight className="h-4 w-4 mx-1" />
-          <span>Resume Details</span>
-          <ChevronRight className="h-4 w-4 mx-1" />
-          <span>Analysis</span>
-        </div>
-        <div className="flex justify-between items-center">
-          <div>
-            <Button variant="ghost" className="flex items-center gap-2 p-0 mb-2" asChild>
-              <Link href={`/dashboard/files/${resumeId}`}>
-                <ArrowLeft className="h-4 w-4" />
-                Back to Resume
-              </Link>
-            </Button>
-            <h1 className="text-3xl font-bold text-gray-900">Career Analysis for {jobTitle}</h1>
-          </div>
-        </div>
+     <div className="mb-8">
+      <div className="flex items-center text-sm text-gray-500 mb-4">
+        <span>Dashboard</span>
+        <ChevronRight className="h-4 w-4 mx-1" />
+        <span>Resume Details</span>
+        <ChevronRight className="h-4 w-4 mx-1" />
+        <span>Analysis</span>
       </div>
+      
+        <div className="flex justify-center w-full mb-4">
+          <Button 
+            variant="ghost" 
+            className="flex items-center justify-center gap-2 px-4 py-2 text-center w-auto" 
+            asChild
+          >
+            <Link 
+              href={`/dashboard/files/${resumeId}`} 
+              className="flex items-center justify-center w-full"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Resume
+            </Link>
+          </Button>
+  </div>
+      
+      <h1 className="text-3xl font-bold text-gray-900 text-center">Career Analysis for {jobTitle}</h1>
+    </div>
 
       {/* Success Banner */}
       <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8 flex items-start">
