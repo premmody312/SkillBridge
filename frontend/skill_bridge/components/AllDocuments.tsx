@@ -22,7 +22,7 @@ function AllDocuments() {
         };
 
         fetchFiles();
-    }, [handleFilesGet]);
+    }, []); // Only runs once on mount
 
     const handleDeleteDocument = async (resumeId: string) => {
         if (!confirm("Are you sure you want to delete this document? This action cannot be undone.")) {
@@ -32,7 +32,7 @@ function AllDocuments() {
         try {
             setDeletingId(resumeId);
             const success = await handleDelete(resumeId);
-            
+
             if (success) {
                 setFiles(prevFiles => prevFiles ? prevFiles.filter(file => file.resume_id !== resumeId) : null);
             } else {
