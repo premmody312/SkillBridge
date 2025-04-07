@@ -44,6 +44,7 @@ async def get_skill_analysis(resume_id: str):
 
     return JSONResponse(content={
         "resume_id": resume_id,
+        "job_description": skill_analysis_data.get("job_description", ""),
         "missing_technical_skills": skill_analysis_data.get("missing_technical_skills", []),
         "missing_soft_skills": skill_analysis_data.get("missing_soft_skills", []),
         "course_recommendations": skill_analysis_data.get("course_recommendations", {})

@@ -6,9 +6,28 @@ SkillBridge is an AI-powered virtual career coach designed to provide personaliz
 ## 🗂️ Project Structure
 
 ```bash
+## 🗂️ Project Structure
+
+```bash
 repo/
-├── frontend/          # Frontend code (e.g., NextJS etc.)
-├── backend/           # Backend code (e.g., Python, fast.ai, mongodb etc.)
+├── frontend/          # Frontend code
+│   └── skill_bridge/  # Next.js application
+│       ├── app/       # Next.js App Router
+│       │   └── (main)/
+│       │       └── dashboard/
+│       │           └── files/
+│       │           └── analysis/
+│       │           └── viewFile/
+│       ├── components/ # Reusable UI components
+│       │   └── ui/    # UI primitives
+│       │   └── Document.tsx
+│       │   └── PdfView.tsx
+│       │   └── AllDocuments.tsx
+│       ├── hooks/     # Custom React hooks
+│       ├── lib/       # Utility functions
+│       ├── public/    # Static assets
+│       └── styles/    # Global styles
+├── backend/          # Backend code (e.g., Python, fast.ai, mongodb etc.)
 │   └── app/
 │       └── routes/
 │       └── services/
