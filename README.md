@@ -29,12 +29,12 @@ repo/
 │       └── styles/    # Global styles
 ├── backend/          # Backend code (e.g., Python, fast.ai, mongodb etc.)
 │   └── app/
-│       └── routes/
-│       └── services/
-│       └── uploads/
-│       └── database.py
-│       └── app.py
-│       └── requirements.txt
+│       └── routes/     # REST endpoints
+│       └── services/   # Business logic & integrations
+│       └── uploads/    # File Reader logic and temporary store for uploaded resumes
+│       └── database.py # MongoDB setup 
+│       └── app.py      # App entry point
+│       └── requirements.txt 
 │       └── backendDocs.md
 
 ```
