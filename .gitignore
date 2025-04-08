@@ -13,3 +13,6 @@ build
 __pycache__
 .venv
 venv
+
+# Frontend related
+frontend/.env

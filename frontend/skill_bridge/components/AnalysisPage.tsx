@@ -10,7 +10,7 @@ export default function AnalysisPage() {
   const searchParams = useSearchParams();
   const resumeId = searchParams.get("resumeId");
   const jobTitle = searchParams.get("jobTitle");
-  
+
   const [analysisData, setAnalysisData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,7 +33,7 @@ export default function AnalysisPage() {
           })
         });
         const data = await response.json();
-        
+
         setAnalysisData(data);
         setLoading(false);
       } catch (err) {
@@ -65,33 +65,39 @@ export default function AnalysisPage() {
 
   return (
     <div className="container max-w-5xl mx-auto py-8 px-4 sm:px-6">
-     <div className="mb-8">
-      <div className="flex items-center text-sm text-gray-500 mb-4">
-        <span>Dashboard</span>
-        <ChevronRight className="h-4 w-4 mx-1" />
-        <span>Resume Details</span>
-        <ChevronRight className="h-4 w-4 mx-1" />
-        <span>Analysis</span>
-      </div>
-      
+      <div className="mb-8">
+        <div className="flex items-center text-sm text-gray-500 mb-4">
+          <span>Dashboard</span>
+          <ChevronRight className="h-4 w-4 mx-1" />
+          <span>Resume Details</span>
+          <ChevronRight className="h-4 w-4 mx-1" />
+          <span>Analysis</span>
+        </div>
+
         <div className="flex justify-center w-full mb-4">
-          <Button 
-            variant="ghost" 
-            className="flex items-center justify-center gap-2 px-4 py-2 text-center w-auto" 
+          <Button
+            variant="ghost"
+            className="flex items-center justify-center gap-2 px-4 py-2 text-center w-auto"
             asChild
           >
-            <Link 
-              href={`/dashboard/files/${resumeId}`} 
+            <Link
+              href={`/dashboard/files/${resumeId}`}
               className="flex items-center justify-center w-full"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Resume
             </Link>
           </Button>
-  </div>
-      
-      <h1 className="text-3xl font-bold text-gray-900 text-center">Career Analysis for {jobTitle}</h1>
-    </div>
+        </div>
+
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 flex items-start">
+          <div>
+            <h3 className="font-medium text-gray-800">Your Job Description</h3>
+            <p className="text-gray-700 text-sm">{jobTitle}</p>
+          </div>
+        </div>
+
+      </div>
 
       {/* Success Banner */}
       <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8 flex items-start">
@@ -108,7 +114,7 @@ export default function AnalysisPage() {
           <div className="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Skill Gap Analysis</h2>
-              
+
               {/* Technical Skills */}
               <div className="mb-6">
                 <h3 className="font-medium text-gray-700 mb-2">Technical Skills to Develop</h3>
@@ -122,7 +128,7 @@ export default function AnalysisPage() {
                   <p className="text-green-600">Your technical skills match the job requirements well!</p>
                 )}
               </div>
-              
+
               {/* Soft Skills */}
               <div>
                 <h3 className="font-medium text-gray-700 mb-2">Soft Skills to Develop</h3>
@@ -153,9 +159,9 @@ export default function AnalysisPage() {
                     <p className="text-gray-600 text-sm mb-2">Skill: {course.skill}</p>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-500">{course.platform}</span>
-                      <a 
-                        href={course.url} 
-                        target="_blank" 
+                      <a
+                        href={course.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"
                       >
@@ -179,9 +185,9 @@ export default function AnalysisPage() {
                     <p className="text-gray-600 text-sm mb-2">Skill: {course.skill}</p>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-500">{course.platform}</span>
-                      <a 
-                        href={course.url} 
-                        target="_blank" 
+                      <a
+                        href={course.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"
                       >

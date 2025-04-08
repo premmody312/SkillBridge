@@ -1,13 +1,13 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export enum StatusText {
-	UPLOADING = "Uploading File...",
-	UPLOADED = "File uploaded succesfully",
-	GETTING = "Getting File...",
-	GENERATING = "Generating AI Response, This will only take a few seconds...",
+    UPLOADING = "Uploading File...",
+    UPLOADED = "File uploaded succesfully",
+    GETTING = "Getting File...",
+    GENERATING = "Generating AI Response, This will only take a few seconds...",
 }
 
 export type status = StatusText[keyof StatusText];
@@ -15,13 +15,13 @@ export type status = StatusText[keyof StatusText];
 // TODO: Implement this whole funcitonality, below is just some example code.
 
 function useUpload() {
-	const [progress, setProgress] = useState<number | null>(null);
-	const [fileId, setFileId] = useState<string | null>(null);
-	const [status, setStatus] = useState<status | null>(null);
-	const { user } = useUser();
+    const [progress, setProgress] = useState<number | null>(null);
+    const [fileId, setFileId] = useState<string | null>(null);
+    const [status, setStatus] = useState<status | null>(null);
+    const { user } = useUser();
 
     const handleFileGet = async (fileId: string): Promise<Blob> => {
-        if(!fileId || !user) {
+        if (!fileId || !user) {
             throw new Error("Missing file ID or user information");
         }
         console.log("Resume ID:", fileId);
@@ -31,7 +31,7 @@ function useUpload() {
                 "User-ID": user.id,
                 "Content-Type": "application/json",
             },
-            });
+        });
         if (response.ok && response.body) {
             console.log("response: ", response);
             const reader = response.body.getReader();
@@ -58,20 +58,20 @@ function useUpload() {
 
     }
 
-    const handleFilesGet = async (): Promise<Array<any>> => {
-        if(!user) return [];
+    const handleFilesGet = useCallback(async (): Promise<Array<any>> => {
+        if (!user) return [];
         setStatus(StatusText.GETTING);
         try {
             const response = await fetch(`http://localhost:8000/api/v1/getAllResumeByUserId`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "User-ID": user.id,
-            },
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "User-ID": user.id,
+                },
             });
 
             if (!response.ok) {
-            throw new Error("Failed to fetch file from database");
+                throw new Error("Failed to fetch file from database");
             }
 
             const data = await response.json();
@@ -85,39 +85,39 @@ function useUpload() {
             return [];
         }
 
-    }
-    
+    }, [user]);
+
     const handleDelete = async (resumeId: string): Promise<boolean> => {
         if (!resumeId || !user) {
-          throw new Error("Missing resume ID or user information");
+            throw new Error("Missing resume ID or user information");
         }
-        
+
         try {
-          const response = await fetch(`http://localhost:8000/api/v1/deleteResume/${resumeId}`, {
-            method: "DELETE",
-            headers: {
-              "user-id": user.id,
-              "Content-Type": "application/json"
+            const response = await fetch(`http://localhost:8000/api/v1/deleteResume/${resumeId}`, {
+                method: "DELETE",
+                headers: {
+                    "user-id": user.id,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Delete failed with status: ${response.status}`);
             }
-          });
-      
-          if (!response.ok) {
-            throw new Error(`Delete failed with status: ${response.status}`);
-          }
-      
-          const data = await response.json();
-          console.log("Delete response:", data);
-          return true;
+
+            const data = await response.json();
+            console.log("Delete response:", data);
+            return true;
         } catch (error) {
-          console.error("Error deleting resume:", error);
-          return false;
+            console.error("Error deleting resume:", error);
+            return false;
         }
-      };
-      
+    };
 
 
-	const handleUpload = async (file: File) => {
-        if(!file || !user) return;
+
+    const handleUpload = async (file: File) => {
+        if (!file || !user) return;
 
         // TODO: Implement file download and upload to backend logic here
         // Example code below:
@@ -129,15 +129,15 @@ function useUpload() {
             formData.append("pdf_doc", file);
 
             const response = await fetch("http://localhost:8000/api/v1/process", {
-            method: "POST",
-            body: formData,
-            headers: {
-                "User-ID": user.id,
-            },
+                method: "POST",
+                body: formData,
+                headers: {
+                    "User-ID": user.id,
+                },
             });
 
             if (!response.ok) {
-            throw new Error("Upload failed");
+                throw new Error("Upload failed");
             }
 
             const data = await response.json();
@@ -160,10 +160,10 @@ function useUpload() {
             // }
 
             if (data.resume_id) {
-            console.log("Uploaded File ID:", data.resume_id);
-            setFileId(data.resume_id);
+                console.log("Uploaded File ID:", data.resume_id);
+                setFileId(data.resume_id);
             } else {
-            console.warn("Uploaded File ID not found in response");
+                console.warn("Uploaded File ID not found in response");
             }
 
             setStatus(StatusText.UPLOADED);
@@ -173,8 +173,8 @@ function useUpload() {
             setStatus("error");
         }
 
-	};
-	return { progress, status, fileId, handleFilesGet, handleUpload, handleFileGet, handleDelete };
+    };
+    return { progress, status, fileId, handleFilesGet, handleUpload, handleFileGet, handleDelete };
 }
 
 export default useUpload;
