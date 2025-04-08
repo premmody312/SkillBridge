@@ -42,13 +42,17 @@ async def skill_gap_analysis(skill: Skills):
         list(missing_technical_skills),
         list(missing_soft_skills)
     )
-
-    # Store skill analysis and course recommendation in db
-    skill_analysis.insert_one({"resume_id": resume_id,
-                               "job_description": job_description,  
-                               "missing_technical_skills": list(missing_technical_skills),
-                               "missing_soft_skills": list(missing_soft_skills),
-                               "course_recommendations": course_recommendations})
+    
+    skill_analysis.update_one(
+        {"resume_id": resume_id},
+        {"$set": {
+            "job_description": job_description,
+            "missing_technical_skills": list(missing_technical_skills),
+            "missing_soft_skills": list(missing_soft_skills),
+            "course_recommendations": course_recommendations
+        }},
+        upsert=True
+    )
 
     return {
         "Missing Technical Skills": list(missing_technical_skills),
