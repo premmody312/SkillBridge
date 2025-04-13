@@ -17,7 +17,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function OptimizeResumePage() {
@@ -117,6 +118,12 @@ export default function OptimizeResumePage() {
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-6 bg-white shadow-md rounded-lg">
+        <Button variant="ghost" className="flex items-center gap-2 p-0 mb-4" asChild>
+          <Link href="/dashboard">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Dashboard
+          </Link>
+        </Button>
       <h1 className="text-3xl font-bold mb-2 text-gray-800">Resume Optimizer</h1>
       <p className="text-gray-600 mb-6">Get expert AI feedback on how to make your resume stronger.</p>
 

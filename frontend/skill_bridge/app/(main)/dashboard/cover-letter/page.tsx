@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import Textarea from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/button";
 import { saveAs } from "file-saver";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function CoverLetterPage() {
   const searchParams = useSearchParams();
@@ -51,6 +53,12 @@ export default function CoverLetterPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg">
+        <Button variant="ghost" className="flex items-center gap-2 p-0 mb-4" asChild>
+          <Link href="/dashboard">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Dashboard
+          </Link>
+        </Button>
       <h1 className="text-3xl font-bold mb-4 text-gray-800">Cover Letter Generator</h1>
 
       <div className="grid gap-4">
