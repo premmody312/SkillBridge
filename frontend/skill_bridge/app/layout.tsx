@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import ChatbotWidget from "@/components/ChatbotWidget";
 import {
 	ClerkProvider,
 	SignInButton,
@@ -41,6 +42,7 @@ export default function RootLayout({
 						<UserButton />
 					</SignedIn> */}
 					{children}
+					<ChatbotWidget/>
 				</body>
 			</html>
 		</ClerkProvider>
