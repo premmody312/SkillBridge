@@ -84,7 +84,7 @@ function AllDocuments() {
                                     </Button>
                                 </div>
                                 {/* Document component */}
-                                <Document id={file.resume_id} name={file.filename} />
+                                <Document id={file.resume_id} name={file.file_name} />
                             </div>
                         ))}
                     <PlaceholderDocument />

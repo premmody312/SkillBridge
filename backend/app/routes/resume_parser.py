@@ -2,7 +2,7 @@ import os
 import json
 from fastapi.responses import JSONResponse
 from bson import ObjectId
-from fastapi import Path, Header
+from fastapi import Path, Header, Request
 import gridfs
 from fastapi import APIRouter, File, UploadFile, HTTPException, Header
 from uploads.file_handler import extract_text_from_pdf
@@ -47,7 +47,7 @@ async def process_resume(user_id: str = Header(None), pdf_doc: UploadFile = File
         parsed_data = json.loads(extracted_data)
         
         # Store parsed resume in db
-        parsed_resumes.insert_one({"resume_id": resume_id, "parsed_data": parsed_data})
+        parsed_resumes.insert_one({"resume_id": resume_id, "parsed_data": parsed_data, "file_name": pdf_doc.filename  })
 
         return {
             "message": "Resume uploaded and parsed successfully",
@@ -116,3 +116,26 @@ async def add_resume_to_user(user_id: str, resume_id: str):
     else:
         # Create new user document
         users.insert_one({"_id": user_id, "resume_ids": [resume_id]})
+
+@router.get("/getAllResumeByUserId")
+async def get_all_resumes(user_id: str = Header(...)):
+    """
+    Returns all resumes for a given user_id, along with basic info like name and resume_id.
+    """
+    user = users.find_one({"_id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    resume_ids = user.get("resume_ids", [])
+    resumes = []
+
+    for resume_id in resume_ids:
+        resume = parsed_resumes.find_one({"resume_id": resume_id})
+        if resume:
+            resumes.append({
+                "resume_id": resume_id,
+                 "file_name": resume.get("file_name", "Unnamed Resume"),
+                "_id": str(resume.get("_id"))
+            })
+
+    return {"resumes": resumes}

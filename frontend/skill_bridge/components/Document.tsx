@@ -1,29 +1,41 @@
 "use client";
-
+import { FileText, Wrench } from "lucide-react";
 import { ChartBar, EyeIcon, FileIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import { useState } from "react";
 
 function Document({ id, name }: { id: string; name: string }) {
     const router = useRouter();
     const { user } = useUser();
+    const [showCoverLetter, setShowCoverLetter] = useState(false);
+    const [showOptimizer, setShowOptimizer] = useState(false);
+    console.log("Rendering document:", { id, name });
 
-    const handleViewPDF = (e) => {
+    const handleViewPDF = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         router.push(`/dashboard/viewFile/${id}`);
     };
 
-    const handleViewAnalysis = async (e) => {
+    const handleViewCoverLetter = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        router.push(`/dashboard/cover-letter?resumeId=${id}`);
+      };
+
+    const handleViewAnalysis = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
         
         try {
             // First fetch the skill analysis to get the job title
             const response = await fetch(`http://localhost:8000/api/v1/getSkillAnalysisById/${id}`, {
-                headers: { "user-id": user?.id }
+                headers: {
+                    "user-id": user?.id ?? ""
+                  }
             });
             
             console.log(response);
@@ -48,8 +60,8 @@ function Document({ id, name }: { id: string; name: string }) {
     return (
         <div className="flex flex-col w-64 h-80 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all duration-500 p-6 cursor-pointer border border-gray-100">
             <div className="flex flex-col items-start">
-                <p className="font-medium text-base text-gray-800 overflow-hidden text-ellipsis break-all line-clamp-1">
-                    {name}
+            <p className="font-medium text-base text-gray-800 overflow-hidden text-ellipsis break-all line-clamp-1">
+            {name}
                 </p>
                 <div className="h-px w-16 bg-gradient-to-r from-gray-200 to-transparent mt-2"></div>
             </div>
@@ -93,8 +105,52 @@ function Document({ id, name }: { id: string; name: string }) {
                     </div>
                 </div>
             </div>
+
+            <div className="flex items-center justify-center mt-4">
+            <div className="flex relative w-full space-x-3 justify-center">
+                {/* Cover Letter Button */}
+                <div className="group relative z-10">
+                    <Button
+                        className="w-10 h-10 p-0 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-full flex items-center justify-center transition-all duration-500 ease-out group-hover:w-28 group-hover:rounded-full shadow-sm hover:shadow group-hover:bg-indigo-600 group-hover:text-white group-hover:border-transparent"
+                        onClick={handleViewCoverLetter}
+                        >
+                        <div className="flex items-center justify-center w-full h-full relative">
+                            <FileText className="h-4 w-4 transition-all duration-500 group-hover:translate-x-[-6px]" />
+                            <span className="opacity-0 max-w-0 pl-0 ml-0 whitespace-nowrap overflow-hidden group-hover:opacity-100 group-hover:max-w-full group-hover:pl-1 text-sm font-medium transition-all duration-500 ease-out">
+                            Cover Letter
+                            </span>
+                        </div>
+                    </Button>
+
+                </div>
+
+                {/* Optimize Resume Button */}
+                <div className="group relative z-10">
+                <Button
+                    className="w-10 h-10 p-0 bg-teal-50 text-teal-800 border border-teal-200 rounded-full flex items-center justify-center transition-all duration-500 ease-out group-hover:w-28 group-hover:rounded-full shadow-sm hover:shadow group-hover:bg-teal-600 group-hover:text-white group-hover:border-transparent"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        router.push(`/dashboard/optimizer?resumeId=${id}`);
+                    }}
+                    
+                >
+                    <div className="flex items-center justify-center w-full h-full relative">
+                    <Wrench className="h-4 w-4 transition-all duration-500 group-hover:translate-x-[-6px]" />
+                    <span className="opacity-0 max-w-0 pl-0 ml-0 whitespace-nowrap overflow-hidden group-hover:opacity-100 group-hover:max-w-full group-hover:pl-1 text-sm font-medium transition-all duration-500 ease-out">
+                        Optimize
+                    </span>
+                    </div>
+                </Button>
+                </div>
+            </div>
+            </div>
+
         </div>
+
+        
     );
+
 }
 
 export default Document;

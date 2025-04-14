@@ -1,3 +1,4 @@
+"use client";
 import { UserButton } from "@clerk/nextjs";
 import MobileSidebar from "./MobileSidebar";
 import { getApiLimitCount } from "@/lib/api-limit";
