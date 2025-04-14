@@ -95,3 +95,44 @@
   http://localhost:8000/api/v1/deleteResume/67f18c459ab56ddc72fc2dba
   Header:
     user-id: user_2vCeDUx2obuFz0WEC5znYgH0ZLx
+
+### Post Request -- Chat with AI Career Coach (Chatbot)
+- URL
+  ```bash
+  http://localhost:8000/api/v1/chatbot
+- Header
+  ```bash
+  Content-type: application/json
+- Body Parameters -> raw
+  ```bash
+  {
+    "message": "",  // The message or query user is asking the bot
+    "chat_history": []  // An array of previous messages (optional for context)
+  }
+
+### Post Request -- Generate Cover Letter
+- URL
+  ```bash
+  http://localhost:8000/api/v1/generate-cover-letter
+- Header
+  ```bash
+  Content-type: application/json
+- Body Parameters -> raw
+  ```bash
+  {
+    "resume_id": "",  // Resume ID stored in GridFS
+    "job_description": "" // Job description as plain text
+  }
+
+### Post Request -- Optimize Resume for Job Role
+- URL
+  ```bash
+  http://localhost:8000/api/v1/optimize-resume
+- Header
+  ```bash
+  Content-type: application/json
+- Body Parameters -> raw
+  ```bash
+  {
+    "resume_id": "" // Resume ID for which optimization is needed
+  }

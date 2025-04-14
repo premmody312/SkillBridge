@@ -15,11 +15,16 @@ repo/
 │       │           └── files/
 │       │           └── analysis/
 │       │           └── viewFile/
+│       │           └── upload/
+│       │           └── cover-letter/
+│       │           └── optimizer/
 │       ├── components/ # Reusable UI components
 │       │   └── ui/    # UI primitives
 │       │   └── Document.tsx
 │       │   └── PdfView.tsx
 │       │   └── AllDocuments.tsx
+│       │   └── AnalysisPage.tsx
+│       │   └── ChatbotWidget.tsx
 │       ├── hooks/     # Custom React hooks
 │       ├── lib/       # Utility functions
 │       ├── public/    # Static assets
