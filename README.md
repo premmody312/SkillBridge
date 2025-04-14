@@ -6,9 +6,6 @@ SkillBridge is an AI-powered virtual career coach designed to provide personaliz
 ## 🗂️ Project Structure
 
 ```bash
-## 🗂️ Project Structure
-
-```bash
 repo/
 ├── frontend/          # Frontend code
 │   └── skill_bridge/  # Next.js application
