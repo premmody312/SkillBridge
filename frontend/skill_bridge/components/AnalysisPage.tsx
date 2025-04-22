@@ -90,13 +90,6 @@ export default function AnalysisPage() {
           </Button>
         </div>
 
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 flex items-start">
-          <div>
-            <h3 className="font-medium text-gray-800">Your Job Description</h3>
-            <p className="text-gray-700 text-sm">{jobTitle}</p>
-          </div>
-        </div>
-
       </div>
 
       {/* Success Banner */}
