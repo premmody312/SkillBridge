@@ -30,6 +30,7 @@ def resume_extractor(resume_text: str) -> str:
     6. Technical Skills
     7. Soft Skills
 
+    Employment Details should have keys as "Title", "Dates", "Company", "Decription"
     Return the output in valid JSON format.
     """
 
