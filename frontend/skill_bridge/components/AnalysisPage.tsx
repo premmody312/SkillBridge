@@ -16,7 +16,9 @@ export default function AnalysisPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!resumeId || !jobTitle) {
+    const fromHistory = searchParams.get("fromHistory") === "true";
+
+    if (!resumeId || (fromHistory === false && !jobTitle)) {
       setError("Missing required parameters");
       setLoading(false);
       return;
@@ -24,26 +26,37 @@ export default function AnalysisPage() {
 
     const fetchAnalysisData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/v1/skill-gap-with-recommendations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            resume_id: resumeId,
-            job_description: jobTitle
-          })
-        });
-        const data = await response.json();
+        setLoading(true);
+        let response;
 
+        if (fromHistory) {
+          response = await fetch(`http://localhost:8000/api/v1/getSkillAnalysisById/${resumeId}`);
+        } else {
+          response = await fetch("http://localhost:8000/api/v1/skill-gap-with-recommendations", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              resume_id: resumeId,
+              job_description: jobTitle
+            })
+          });
+        }
+
+        if (!response.ok) throw new Error("Request failed");
+
+        const data = await response.json();
         setAnalysisData(data);
-        setLoading(false);
       } catch (err) {
+        console.error("Error loading analysis:", err);
         setError("Failed to load analysis data");
+      } finally {
         setLoading(false);
       }
     };
 
-    setTimeout(fetchAnalysisData, 1000);
-  }, [resumeId, jobTitle]);
+    fetchAnalysisData();
+  }, [resumeId, jobTitle, searchParams]);
+
 
   if (loading) {
     return (

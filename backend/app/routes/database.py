@@ -33,6 +33,7 @@ async def download_resume(resume_id: str):
 async def get_skill_analysis(resume_id: str):
     """
     Fetches the stored skill analysis and course recommendations by resume_id.
+    Normalizes field names to match frontend expectations.
     """
     skill_analysis_data = skill_analysis.find_one(
         {"resume_id": resume_id},
@@ -45,10 +46,11 @@ async def get_skill_analysis(resume_id: str):
     return JSONResponse(content={
         "resume_id": resume_id,
         "job_description": skill_analysis_data.get("job_description", ""),
-        "missing_technical_skills": skill_analysis_data.get("missing_technical_skills", []),
-        "missing_soft_skills": skill_analysis_data.get("missing_soft_skills", []),
-        "course_recommendations": skill_analysis_data.get("course_recommendations", {})
+        "Missing Technical Skills": skill_analysis_data.get("missing_technical_skills", []),
+        "Missing Soft Skills": skill_analysis_data.get("missing_soft_skills", []),
+        "Recommendations": skill_analysis_data.get("course_recommendations", {})
     })
+
 
 @router.get("/getAllResumeByUserId")
 async def get_all_resumes(user_id: str = Header(None)):
