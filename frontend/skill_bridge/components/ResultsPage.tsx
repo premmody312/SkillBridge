@@ -17,7 +17,7 @@ export default function ResultsPage() {
   const { user, isLoaded: isUserLoaded } = useUser();
   const [resumeData, setResumeData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [jobTitle, setJobTitle] = useState("");
   const [resumeId, setResumeId] = useState("");
   const [analyzing, setAnalyzing] = useState(false);

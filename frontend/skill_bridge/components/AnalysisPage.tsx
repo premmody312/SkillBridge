@@ -13,7 +13,7 @@ export default function AnalysisPage() {
 
   const [analysisData, setAnalysisData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fromHistory = searchParams.get("fromHistory") === "true";
@@ -110,7 +110,7 @@ export default function AnalysisPage() {
         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
         <div>
           <h3 className="font-medium text-green-800">Analysis Complete</h3>
-          <p className="text-green-700 text-sm">We've analyzed your resume against the requirements for "{jobTitle}". Review the insights below to enhance your professional profile.</p>
+          <p className="text-green-700 text-sm">We've analyzed your resume against the requirements for {analysisData?.["job_description"]}. Review the insights below to enhance your professional profile.</p>
         </div>
       </div>
 
