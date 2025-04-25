@@ -20,6 +20,15 @@ export default function ChatbotWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
 
+  useEffect(() => {
+    if (open) {
+      // Delay slightly (100ms) to allow the UI to render before scrolling
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [open]);
+
   const updateChatHistory = (entry: { type: "user" | "bot"; text: string }) => {
     setChat((prev) => [...prev, entry].slice(-10));
   };
@@ -68,7 +77,7 @@ export default function ChatbotWidget() {
           <MessageCircle className="w-5 h-5 text-white" />
         </Button>
       ) : (
-        <div className="w-80 h-96 bg-white border border-gray-300 rounded-2xl shadow-xl flex flex-col overflow-hidden">
+        <div className="w-[90vw] max-w-xl h-[80vh] sm:w-[28rem] sm:h-[34rem] bg-white border border-gray-300 rounded-2xl shadow-xl flex flex-col overflow-hidden">
           {/* Header */}
           <div className="bg-indigo-600 p-3 flex justify-between items-center">
             <span className="font-semibold text-white text-sm">SkillBridge AI Assistant</span>
@@ -104,15 +113,15 @@ export default function ChatbotWidget() {
 
           {/* Input */}
           <div className="border-t border-gray-200 p-3 flex items-center space-x-2 bg-white">
-            <input
-              type="text"
-              className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              placeholder="Ask about interview questions, technical roles, or companies..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              disabled={loading}
-            />
+          <textarea
+            className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+            placeholder="Ask about interview questions, technical roles, or companies..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
+            rows={4} // or any number of lines you'd like by default
+            disabled={loading}
+          />
             <Button
               size="sm"
               className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 text-sm"
