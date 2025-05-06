@@ -16,3 +16,4 @@ venv
 
 # Frontend related
 frontend/.env
+backend/app/.env
